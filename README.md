@@ -45,6 +45,7 @@ This project is being developed as part of Android development practice and port
   <img src="Screen/main.png" />
   <img src="Screen/1.png" />
   <img src="Screen/2.png" />
+  <img src="Screen/7.png" />
 </p>
 
 > Replace placeholder images with real screenshots from the application.
