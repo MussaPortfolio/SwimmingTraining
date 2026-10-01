@@ -57,6 +57,7 @@ public class ZaprosTrainer extends AppCompatActivity {
         dbuid.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                uzapros.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UZapros pzapros = postSnapshot.getValue(UZapros.class);
                     uzapros.add(pzapros);

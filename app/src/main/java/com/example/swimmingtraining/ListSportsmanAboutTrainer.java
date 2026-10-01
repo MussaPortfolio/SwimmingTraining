@@ -55,6 +55,7 @@ public class ListSportsmanAboutTrainer extends AppCompatActivity {
         dbsportsman.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ulist.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UList plist = postSnapshot.getValue(UList.class);
                     ulist.add(plist);

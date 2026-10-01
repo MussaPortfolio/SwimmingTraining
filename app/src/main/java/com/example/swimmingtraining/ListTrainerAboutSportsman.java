@@ -50,6 +50,7 @@ public class ListTrainerAboutSportsman extends AppCompatActivity {
         dbsportsman_for_trainer.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                uadd.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UAdd padd= postSnapshot.getValue(UAdd.class);
                     uadd.add(padd);
@@ -72,21 +73,6 @@ public class ListTrainerAboutSportsman extends AppCompatActivity {
             }
         });
 
-//        //контекстное меню
-//        listViewListSportsman.setOnCreateContextMenuListener(new AdapterView.OnCreateContextMenuListener() {
-//            @Override
-//            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//
-//                ListTrainerAboutSportsman.super.onCreateContextMenu(menu, v, menuInfo);
-//                MenuInflater inflater = getMenuInflater();
-//                inflater.inflate(R.menu.context_menu_trainer, menu);
-//
-//                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//                position = info.position;
-//
-//
-//            }
-//        });
         //Обработка нажатия на элемент listview
         listViewListSportsman.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -141,17 +127,4 @@ public class ListTrainerAboutSportsman extends AppCompatActivity {
         });
     }
 
-//    //Дествие контектсного меню
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//
-//        switch (item.getItemId())
-//        {
-//            case R.id.addtrainer:
-//                return true;
-//            default:
-//                return super.onContextItemSelected(item);
-//        }
-//    }
 }

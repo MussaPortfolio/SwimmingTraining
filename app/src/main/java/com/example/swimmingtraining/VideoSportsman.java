@@ -34,6 +34,7 @@ public class VideoSportsman extends AppCompatActivity {
         dbvideotrainer.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                uvideo.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UVideoTrainer b = postSnapshot.getValue(UVideoTrainer.class);
                     uvideo.add(b);

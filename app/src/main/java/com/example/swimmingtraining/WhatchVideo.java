@@ -32,6 +32,7 @@ public class WhatchVideo extends AppCompatActivity {
         dbvideo.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                uvideo.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UVideo a = postSnapshot.getValue(UVideo.class);
                     uvideo.add(a);

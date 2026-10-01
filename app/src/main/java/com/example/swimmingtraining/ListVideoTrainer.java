@@ -39,6 +39,7 @@ public class ListVideoTrainer extends AppCompatActivity {
         dbsportsman.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ussilka.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     USsilka plist = postSnapshot.getValue(USsilka.class);
                     ussilka.add(plist);

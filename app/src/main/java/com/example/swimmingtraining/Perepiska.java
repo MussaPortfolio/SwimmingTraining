@@ -63,6 +63,7 @@ public class Perepiska extends AppCompatActivity {
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                uchatList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UChat uchat = postSnapshot.getValue(UChat.class);
                     uchatList.add(uchat);
