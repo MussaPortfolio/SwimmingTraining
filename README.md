@@ -1,161 +1,73 @@
 # 🏊 SwimmingTraining
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Android-Java-green?style=for-the-badge&logo=android" />
-  <img src="https://img.shields.io/badge/Platform-Android-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge" />
-</p>
+![Android](https://img.shields.io/badge/Android-Java-green?style=for-the-badge&logo=android)
+![Firebase](https://img.shields.io/badge/Firebase-Auth%20%7C%20DB%20%7C%20Storage-orange?style=for-the-badge&logo=firebase)
+![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge)
+
+Android-приложение для взаимодействия тренеров по плаванию и спортсменов: обмен видео тренировок, запросы тренеру и переписка.
+
+## 📱 Возможности
+
+**Спортсмен**
+- регистрация и вход, просмотр списка тренеров и профилей
+- отправка запроса тренеру
+- загрузка видео тренировок (Firebase Storage)
+- переписка с тренером
+- рейтинг
+
+**Тренер**
+- список спортсменов и их профили
+- просмотр видео спортсменов
+- обработка входящих запросов
+- переписка со спортсменами
+
+**Гость** — просмотр списка тренеров без входа.
+
+**Администратор** — отдельный вход и панель управления.
+
+Роль пользователя (`Sportsman` / `Trainer`) хранится в Realtime Database (`users/{uid}/rol`) и определяет, какой экран откроется после входа.
+
+## 📸 Скриншоты
 
 <p align="center">
-  Mobile application for planning and tracking swimming workouts.
+  <img src="Screen/main.png" width="200" />
+  <img src="Screen/7.png" width="200" />
+  <img src="Screen/1.png" width="200" />
 </p>
 
----
+## 🛠 Технологии
 
-# 📱 About Project
+- Java, Android SDK (minSdk 19, targetSdk 28)
+- Android Support Library 28, XML-разметка
+- Firebase Authentication, Realtime Database, Storage
+- Gradle
 
-SwimmingTraining is an Android application designed for swimmers and athletes.
-The app helps users:
+## 🧱 Архитектура
 
-* create swimming workouts,
-* track training progress,
-* monitor distance and time,
-* improve discipline and performance.
+Сейчас вся логика находится в Activity и фрагментах, пакет `com.example.swimmingtraining` плоский.
 
-This project is being developed as part of Android development practice and portfolio building.
+Планы: миграция на AndroidX, MVVM, вынос строк в `strings.xml`, слой репозиториев для Firebase.
 
----
-
-# ✨ Features
-
-✅ Create workouts
-✅ Training history
-✅ Track distance and time
-✅ Simple and clean UI
-✅ Local data storage
-🚧 Statistics and charts
-🚧 Firebase sync
-🚧 Notifications and reminders
-
----
-
-# 📸 Screenshots
-
-<p align="center">
-  <img src="Screen/main.png" />
-  <img src="Screen/7.png" />
-  <img src="Screen/1.png" />
-
-</p>
-
----
-
-# 🛠 Tech Stack
-
-* Java
-* Android SDK
-* XML Layouts
-* Gradle
-* Firebase
-* NoSQL Database
-* GitHub
-
----
-
-# 📚 Development Tools
-
-| Tool           | Description                                |
-| -------------- | ------------------------------------------ |
-| Android Studio | Main IDE for Android development           |
-| Java           | Core programming language                  |
-| Firebase       | Backend and cloud services                 |
-| NoSQL          | Flexible data storage system               |
-| XML            | UI layout creation                         |
-| GitHub         | Version control and repository hosting     |
-| Gradle         | Build automation and dependency management |
-
----
-
-# 🧱 Architecture
-
-Current architecture:
-
-* Activities
-* XML Layouts
-* Local storage
-
-Planned improvements:
-
-* MVVM
-* Room Database
-* Retrofit
-* Firebase
-* Hilt Dependency Injection
-
----
-
-# 🚀 Installation
-
-## Clone repository
+## 🚀 Запуск
 
 ```bash
 git clone https://github.com/MussaPortfolio/SwimmingTraining.git
 ```
 
-## Open project
+1. Откройте проект в Android Studio и дождитесь синхронизации Gradle.
+2. Подключите свой Firebase-проект: замените `app/google-services.json` и включите Email/Password Auth, Realtime Database и Storage.
+3. Настройте правила базы данных и хранилища так, чтобы доступ был только у авторизованных пользователей.
+4. Запустите на эмуляторе или устройстве.
 
-1. Open Android Studio
-2. Click **Open**
-3. Select project folder
-4. Wait for Gradle sync
-5. Run application on emulator or Android device
+## 🗺 Roadmap
 
----
+- [ ] Миграция на AndroidX и актуальные версии Firebase
+- [ ] Безопасный вход администратора (Firebase Auth + правила БД)
+- [ ] Отписка от слушателей Firebase, устранение дублирования кода
+- [ ] Тесты
+- [ ] Push-уведомления
+- [ ] Тёмная тема
 
-# 📂 Project Structure
+## 👨‍💻 Автор
 
-```text
-SwimmingTraining/
-│
-├── app/
-├── gradle/
-├── build.gradle
-├── settings.gradle
-└── README.md
-```
-
----
-
-# 🗺 Roadmap
-
-* [ ] User authentication
-* [ ] Workout timer
-* [ ] Statistics dashboard
-* [ ] Push notifications
-* [ ] Dark theme
-* [ ] Firebase synchronization
-* [ ] Cloud backup
-* [ ] Export workout history
-
----
-
-# 🎯 Purpose
-
-The main goal of this project is:
-
-* improve Android development skills,
-* practice mobile UI creation,
-* learn app architecture,
-* build a strong portfolio project.
-
----
-
-# 👨‍💻 Author
-
-GitHub: [https://github.com/MussaPortfolio](https://github.com/MussaPortfolio)
-
----
-
-# ⭐ Support
-
-If you like this project, give it a star on GitHub ⭐
+[MussaPortfolio](https://github.com/MussaPortfolio)

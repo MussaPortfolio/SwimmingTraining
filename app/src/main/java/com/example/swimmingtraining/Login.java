@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +68,7 @@ public class Login extends AppCompatActivity {
                 if(TextUtils.isEmpty(password1)){
                     password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
                     Toast.makeText(getApplicationContext(),"Пожалуйста заполните необходимые поля",Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 firebaseAuth.signInWithEmailAndPassword(email1,password1)
@@ -74,31 +76,7 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    //Вход к нужному пользователю
-                                    DatabaseReference uid = user.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                    uid.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            final String rol1 = dataSnapshot.child("rol").getValue(String.class);
-
-                                            if (rol1.equals("Sportsman")){
-                                                Intent intent = new Intent(Login.this, Main_sportsman.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            else if (rol1.equals("Trainer")){
-                                                Intent intent = new Intent(Login.this, Main_trainer.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError error) {
-                                            // Failed to read value
-                                            Log.w("Failed to read value.", error.toException());
-                                        }
-                                    });
+                                    openByRole();
                                 }
                                 else{
                                     email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
@@ -111,8 +89,36 @@ public class Login extends AppCompatActivity {
         });
 
         if(firebaseAuth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(),Main_trainer.class));
+            openByRole();
         }
+    }
+
+    // Читает роль один раз и открывает нужный экран
+    private void openByRole() {
+        FirebaseUser current = firebaseAuth.getCurrentUser();
+        if (current == null) return;
+        user.child(current.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String rol = dataSnapshot.child("rol").getValue(String.class);
+                Intent intent;
+                if ("Sportsman".equals(rol)) {
+                    intent = new Intent(Login.this, Main_sportsman.class);
+                } else if ("Trainer".equals(rol)) {
+                    intent = new Intent(Login.this, Main_trainer.class);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Роль пользователя не определена", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("Failed to read value.", error.toException());
+            }
+        });
     }
 
 
