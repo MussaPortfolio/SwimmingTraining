@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Perepiska extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     //the listview
     ListView listView;
 
@@ -60,7 +62,7 @@ public class Perepiska extends AppCompatActivity {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("message");
 
 //retrieving upload data from firebase database
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        listeners.add(mDatabaseReference, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uchatList.clear();
@@ -88,5 +90,11 @@ public class Perepiska extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

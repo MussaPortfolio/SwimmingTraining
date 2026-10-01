@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZaprosTrainer extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
 
     //объявление переменных
     ListView listViewListZapros;
@@ -54,7 +56,7 @@ public class ZaprosTrainer extends AppCompatActivity {
         DatabaseReference dbuid = dbzapros.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         //Чтение списка
-        dbuid.addValueEventListener(new ValueEventListener() {
+        listeners.add(dbuid, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uzapros.clear();
@@ -97,7 +99,7 @@ public class ZaprosTrainer extends AppCompatActivity {
                 DatabaseReference dbuser = dbusers.child(part0);
 
                 //чтение с БД
-                dbuser.addValueEventListener(new ValueEventListener() {
+                listeners.add(dbuser, new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         vfamailia = dataSnapshot.child("famailia").getValue(String.class);
@@ -221,5 +223,11 @@ public class ZaprosTrainer extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Rating extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
 
     TextView tv_raiting;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -28,7 +30,7 @@ public class Rating extends AppCompatActivity {
 
         //чтение с бд
         DatabaseReference uid = user.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        uid.addValueEventListener(new ValueEventListener() {
+        listeners.add(uid, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String valuerating = dataSnapshot.child("raiting").getValue(String.class);
@@ -41,5 +43,11 @@ public class Rating extends AppCompatActivity {
                 Log.w("Failed to read value.", error.toException());
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

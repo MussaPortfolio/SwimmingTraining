@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WhatchVideo extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     List<UVideo> uvideo;
     ListView listvideo;
     @Override
@@ -29,7 +31,7 @@ public class WhatchVideo extends AppCompatActivity {
         uvideo = new ArrayList<>();
         registerForContextMenu(listvideo);
         DatabaseReference dbvideo = FirebaseDatabase.getInstance().getReference("video");
-        dbvideo.addValueEventListener(new ValueEventListener() {
+        listeners.add(dbvideo, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uvideo.clear();
@@ -74,5 +76,10 @@ public class WhatchVideo extends AppCompatActivity {
             }
         });
     }
-}
 
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
+    }
+}

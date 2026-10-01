@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class PushVideo extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
 
     EditText dv, e_name_video;
     private VideoView videoView;
@@ -281,7 +283,7 @@ public class PushVideo extends AppCompatActivity {
 
                                     //Получение uid  тренера
                                     DatabaseReference dbsootv_trainer = dbsootv.child("sootv_sportsman");
-                                    dbsootv_trainer.addValueEventListener(new ValueEventListener() {
+                                    listeners.add(dbsootv_trainer, new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             uid_trainer = dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getValue(String.class);
@@ -327,5 +329,11 @@ public class PushVideo extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

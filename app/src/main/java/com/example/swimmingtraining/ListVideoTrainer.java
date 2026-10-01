@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListVideoTrainer extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
 
     ListView listVideoTrainer;
     List<USsilka> ussilka;
@@ -36,7 +38,7 @@ public class ListVideoTrainer extends AppCompatActivity {
         DatabaseReference dbsportsman = dbrol.child("trainer");
 
         //Вывод списка
-        dbsportsman.addValueEventListener(new ValueEventListener() {
+        listeners.add(dbsportsman, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ussilka.clear();
@@ -88,5 +90,11 @@ public class ListVideoTrainer extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

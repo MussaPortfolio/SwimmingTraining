@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Main_trainer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     //Объявление элементов GUI
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -45,7 +47,7 @@ public class Main_trainer extends AppCompatActivity
 
         //чтение с бд
         DatabaseReference uid = user.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        uid.addValueEventListener(new ValueEventListener() {
+        listeners.add(uid, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 NavigationView nv = (NavigationView) findViewById(R.id.nav_view);
@@ -134,5 +136,11 @@ public class Main_trainer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

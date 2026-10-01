@@ -22,6 +22,8 @@ import java.util.List;
 import static android.widget.Toast.makeText;
 
 public class ListTrainerToGoust extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     //the listview
     ListView listViewListTraineer;
     public int position;
@@ -50,7 +52,7 @@ public class ListTrainerToGoust extends AppCompatActivity {
         DatabaseReference dbsportsman = dbrol.child("trainer");
 
         //retrieving upload data from firebase database
-        dbsportsman.addValueEventListener(new ValueEventListener() {
+        listeners.add(dbsportsman, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ulist.clear();
@@ -92,7 +94,7 @@ public class ListTrainerToGoust extends AppCompatActivity {
                 DatabaseReference dbuser = dbusers.child(part1);
 
                 //чтение с БД
-                dbuser.addValueEventListener(new ValueEventListener() {
+                listeners.add(dbuser, new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         vfamilia = dataSnapshot.child("famailia").getValue(String.class);
@@ -127,5 +129,11 @@ public class ListTrainerToGoust extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

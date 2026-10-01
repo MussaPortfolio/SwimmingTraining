@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListTrainerAboutSportsman extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     //the listview
     ListView listViewListSportsman;
     public int position;
@@ -47,7 +49,7 @@ public class ListTrainerAboutSportsman extends AppCompatActivity {
         DatabaseReference dbsportsman_for_trainer = dbuser.child("sportsman"); //велка спорсменов пользователя
 
         //Вывод списка
-        dbsportsman_for_trainer.addValueEventListener(new ValueEventListener() {
+        listeners.add(dbsportsman_for_trainer, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uadd.clear();
@@ -90,7 +92,7 @@ public class ListTrainerAboutSportsman extends AppCompatActivity {
                 DatabaseReference dbuser = dbusers.child(part1);
 
                 //чтение с БД
-                dbuser.addValueEventListener(new ValueEventListener() {
+                listeners.add(dbuser, new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         vfamilia = dataSnapshot.child("famailia").getValue(String.class);
@@ -127,4 +129,9 @@ public class ListTrainerAboutSportsman extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
+    }
 }

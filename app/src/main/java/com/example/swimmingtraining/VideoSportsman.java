@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VideoSportsman extends AppCompatActivity {
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     List<UVideoTrainer> uvideo;
     ListView listvideo;
     @Override
@@ -31,7 +33,7 @@ public class VideoSportsman extends AppCompatActivity {
         registerForContextMenu(listvideo);
         DatabaseReference dbvideo = FirebaseDatabase.getInstance().getReference("zagvideo");
         DatabaseReference dbvideotrainer = dbvideo.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        dbvideotrainer.addValueEventListener(new ValueEventListener() {
+        listeners.add(dbvideotrainer, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uvideo.clear();
@@ -82,5 +84,11 @@ public class VideoSportsman extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }

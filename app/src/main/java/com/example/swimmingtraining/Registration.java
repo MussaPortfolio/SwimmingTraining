@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import static android.widget.Toast.*;
 
 public class Registration extends AppCompatActivity implements ValueEventListener{
+    private final FirebaseListeners listeners = new FirebaseListeners();
+
     EditText email,password,familia,name,otchestvo,dr, login, stuge, about;
     Button registerButton,loginButton;
     //public static String rol1;
@@ -148,7 +150,7 @@ public class Registration extends AppCompatActivity implements ValueEventListene
 
                             //Вход к нужному пользователю
                             DatabaseReference uid = user.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            uid.addValueEventListener(new ValueEventListener() {
+                            listeners.add(uid, new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     final String rol1 = dataSnapshot.child("rol").getValue(String.class);
@@ -227,5 +229,11 @@ public class Registration extends AppCompatActivity implements ValueEventListene
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        listeners.removeAll();
+        super.onDestroy();
     }
 }
